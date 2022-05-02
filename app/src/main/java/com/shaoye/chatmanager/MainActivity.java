@@ -3,51 +3,27 @@ package com.shaoye.chatmanager;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.PixelFormat;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.Toast;
 
-import com.shaoye.chatmanager.adapter.ChatManagerAdapter;
-import com.shaoye.chatmanager.databinding.FloatWindowTestBinding;
-import com.shaoye.chatmanager.model.AppInfo;
-import com.shaoye.chatmanager.view.FloatWindow;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.shaoye.chatmanager.constant.MessageConstant;
 
 public class MainActivity extends AppCompatActivity {
-
-    private FloatWindow mFloatWindow;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mFloatWindow = FloatWindow.getInstance(getApplicationContext());
 
         if (!Settings.canDrawOverlays(this)) {
             ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -64,5 +40,24 @@ public class MainActivity extends AppCompatActivity {
             launcher.launch(intent);
         }
 
+        Button sendMessage = findViewById(R.id.send_vivo_broadcast);
+        sendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendVivoMessage();
+            }
+        });
     }
+
+    @SuppressWarnings("WrongConstant")
+    private void sendVivoMessage() {
+        Log.e(TAG, "sendVivoMessage: ");
+        Intent intent = new Intent(MessageConstant.APPLICATION_NOTIFICATION);
+        intent.putExtra(MessageConstant.PACKAGE_NAME, getPackageName());
+        intent.putExtra(MessageConstant.CLASS_NAME, "com.shaoye.chatmanager.MainActivity");
+        intent.putExtra(MessageConstant.APPLICATION_NOTIFICATION_NUMBER, 2);
+        intent.addFlags(0x01000000);
+        sendBroadcast(intent);
+    }
+
 }

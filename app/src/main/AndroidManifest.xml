@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.shaoye.chatmanager">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="com.vivo.notification.permission.BADGE_ICON" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
 
     <application
         android:name=".ChatManagerApplication"
@@ -16,14 +20,24 @@
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!---->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
-        <service android:name=".service.ChatService" />
+        <service android:name=".service.ChatManagerService" />
+
+        <receiver
+            android:name=".receiver.MessageReceiver"
+            android:exported="true">
+            <intent-filter>
+                <!-- 接收vivo手机的消息通知-->
+                <action android:name="launcher.action.CHANGE_APPLICATION_NOTIFICATION_NUM" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

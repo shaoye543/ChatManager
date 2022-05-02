@@ -16,7 +16,7 @@ import com.shaoye.chatmanager.view.FloatWindow;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatService extends Service {
+public class ChatManagerService extends Service {
     private static final String TAG = "ChatService";
 
     private FloatWindow mFloatWindow;
@@ -33,11 +33,6 @@ public class ChatService extends Service {
         Log.e(TAG, "onCreate: ");
         mFloatWindow = FloatWindow.getInstance(getApplicationContext());
         List<AppInfo> appInfos = new ArrayList<>();
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background);
-        for (int i = 0; i < 20; i++) {
-            appInfos.add(new AppInfo("app" + i, bitmap, i));
-        }
-
         mFloatWindow.createFloatView(appInfos);
         mFloatWindow.showWindow();
     }
@@ -45,5 +40,11 @@ public class ChatService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mFloatWindow.dismiss();
     }
 }

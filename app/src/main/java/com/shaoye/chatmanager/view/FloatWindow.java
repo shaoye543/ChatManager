@@ -4,19 +4,20 @@ import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.shaoye.chatmanager.R;
 import com.shaoye.chatmanager.adapter.ChatItemDecoration;
 import com.shaoye.chatmanager.adapter.ChatManagerAdapter;
-import com.shaoye.chatmanager.databinding.FloatWindowChatManagerBarBinding;
 import com.shaoye.chatmanager.model.AppInfo;
-import com.shaoye.chatmanager.model.ChatBarInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +27,17 @@ public class FloatWindow {
 
     private static FloatWindow sInstance;
 
-//    private ChatBarInfo mChatBarInfo = new ChatBarInfo();
     private List<AppInfo> mAppInfos = new ArrayList<>();
+    private boolean mShowing = false;
 
     private Context mContext;
-
     private WindowManager mWindowManager;
     private ChatManagerAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
-    private FloatWindowChatManagerBarBinding mFloatBinding;
     private WindowManager.LayoutParams mParams;
+    
+    private View mFloatView;
+    private RecyclerView mAppList;
 
     private FloatWindow(Context context) {
         mContext = context;
@@ -48,32 +50,33 @@ public class FloatWindow {
         return sInstance;
     }
 
-//    public void setAppInfos(List<AppInfo> appInfos) {
-//        mAppInfos = appInfos;
-//        mAdapter.setAppInfos(appInfos);
-//    }
+    public List<AppInfo> getAppInfos() {
+        return mAppInfos;
+    }
 
     public void setOrientation(int orientation) {
         mLayoutManager.setOrientation(orientation);
         if (mWindowManager != null) {
-            mWindowManager.updateViewLayout(mFloatBinding.getRoot(), mParams);
+            mWindowManager.updateViewLayout(mFloatView, mParams);
         }
     }
 
     public void createFloatView(List<AppInfo> appInfos) {
-        mAppInfos = appInfos;
-        if (mFloatBinding != null) {
+        if (mFloatView != null) {
             return;
         }
+        mAppInfos = appInfos;
         mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        mFloatView = LayoutInflater.from(mContext).inflate(R.layout.float_window_chat_manager_bar, null, false);
+        mAppList = mFloatView.findViewById(R.id.apps_list);
         mLayoutManager = new LinearLayoutManager(mContext);
-        mFloatBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.float_window_chat_manager_bar, null, false);
         mAdapter = new ChatManagerAdapter(mContext, mAppInfos);
         initWindowParams();
+
         mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mFloatBinding.managedAppsList.setAdapter(mAdapter);
-        mFloatBinding.managedAppsList.addItemDecoration(new ChatItemDecoration(mContext));
-        mFloatBinding.managedAppsList.setLayoutManager(mLayoutManager);
+        mAppList.setAdapter(mAdapter);
+        mAppList.addItemDecoration(new ChatItemDecoration(mContext));
+        mAppList.setLayoutManager(mLayoutManager);
     }
 
     private void initWindowParams() {
@@ -96,7 +99,7 @@ public class FloatWindow {
         DisplayMetrics metrics = new DisplayMetrics();
         mWindowManager.getDefaultDisplay().getMetrics(metrics);
         int margin = mContext.getResources().getDimensionPixelSize(R.dimen.chat_list_item_margin);
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mFloatBinding.managedAppsList.getLayoutParams();
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mAppList.getLayoutParams();
         if (orientation == LinearLayoutManager.VERTICAL) {
             params.topMargin = margin;
             params.bottomMargin = margin;
@@ -110,9 +113,29 @@ public class FloatWindow {
         }
     }
 
+    public void updateView() {
+        Log.e(TAG, "updateView: " + isCreated());
+        if (isCreated()) {
+            Log.e(TAG, "updateView: " + mAppInfos.size());
+//            mWindowManager.updateViewLayout(mFloatView, mParams);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private boolean isCreated() {
+        return mAppList != null && mParams != null;
+    }
+
     public void showWindow() {
-        if (mFloatBinding != null) {
-            mWindowManager.addView(mFloatBinding.getRoot(), mParams);
+        if (!mShowing && mAppList != null) {
+            mShowing = true;
+            mWindowManager.addView(mFloatView, mParams);
+        }
+    }
+
+    public void dismiss() {
+        if (mShowing) {
+            mWindowManager.removeViewImmediate(mFloatView);
         }
     }
 

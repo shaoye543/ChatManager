@@ -8,7 +8,9 @@
         <entry key="..\:/Android/ChatManager/app/src/main/res/layout/activity_main.xml" value="0.3066123188405797" />
         <entry key="..\:/Android/ChatManager/app/src/main/res/layout/application_view.xml" value="0.146875" />
         <entry key="..\:/Android/ChatManager/app/src/main/res/layout/float_window_chat_manager.xml" value="0.2971014492753623" />
+        <entry key="..\:/Android/ChatManager/app/src/main/res/layout/float_window_chat_manager_bar.xml" value="0.3138586956521739" />
         <entry key="..\:/Android/ChatManager/app/src/main/res/layout/float_window_test.xml" value="0.30842391304347827" />
+        <entry key="..\:/Android/ChatManager/app/src/main/res/layout/item_app_info.xml" value="0.16458333333333333" />
         <entry key="..\:/Android/ChatManager/app/src/main/res/layout/item_managed_app.xml" value="0.25" />
       </map>
     </option>

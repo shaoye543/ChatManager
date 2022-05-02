@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shaoye.chatmanager.R;
 
+/**
+ * 给管理的应用列表添加点间距
+ */
 public class ChatItemDecoration extends RecyclerView.ItemDecoration {
     private static final String TAG = "ItemDecoration";
 

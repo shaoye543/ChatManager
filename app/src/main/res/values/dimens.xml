@@ -3,7 +3,7 @@
 
     <dimen name="float_window_background_radius">15dp</dimen>
     <dimen name="float_window_app_icon_size">60dp</dimen>
-    <dimen name="float_window_width">85dp</dimen>
+    <dimen name="float_window_width">75dp</dimen>
     <dimen name="float_window_height">350dp</dimen>
     <dimen name="chat_list_item_margin">10dp</dimen>
 

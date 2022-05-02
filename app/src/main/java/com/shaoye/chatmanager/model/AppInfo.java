@@ -1,18 +1,18 @@
 package com.shaoye.chatmanager.model;
 
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 public class AppInfo {
     private static final String TAG = "AppInfo";
 
     private String name;
-    private Bitmap icon;
+    private Drawable icon;
     private int messages;
 
     public AppInfo() {
     }
 
-    public AppInfo(String name, Bitmap icon, int messages) {
+    public AppInfo(String name, Drawable icon, int messages) {
         this.name = name;
         this.icon = icon;
         this.messages = messages;
@@ -26,11 +26,11 @@ public class AppInfo {
         this.name = name;
     }
 
-    public Bitmap getIcon() {
+    public Drawable getIcon() {
         return icon;
     }
 
-    public void setIcon(Bitmap icon) {
+    public void setIcon(Drawable icon) {
         this.icon = icon;
     }
 
