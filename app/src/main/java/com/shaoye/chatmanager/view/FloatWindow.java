@@ -9,13 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shaoye.chatmanager.R;
-import com.shaoye.chatmanager.adapter.ChatItemDecoration;
 import com.shaoye.chatmanager.adapter.ChatManagerAdapter;
 import com.shaoye.chatmanager.model.AppInfo;
 
@@ -75,7 +73,6 @@ public class FloatWindow {
 
         mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mAppList.setAdapter(mAdapter);
-        mAppList.addItemDecoration(new ChatItemDecoration(mContext));
         mAppList.setLayoutManager(mLayoutManager);
     }
 

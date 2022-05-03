@@ -2,14 +2,11 @@ package com.shaoye.chatmanager.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.shaoye.chatmanager.R;
 import com.shaoye.chatmanager.model.AppInfo;
 import com.shaoye.chatmanager.view.FloatWindow;
 

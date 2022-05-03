@@ -13,7 +13,7 @@ public class ChatManagerApplication extends Application {
         super.onCreate();
 
         Intent intent = new Intent(this, ChatManagerService.class);
-//        startService(intent);
+        startService(intent);
 
     }
 }

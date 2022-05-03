@@ -43,7 +43,8 @@ public class ChatManagerAdapter extends RecyclerView.Adapter<ChatManagerAdapter.
         if (viewType == APP_ICON) {
             AppInfo info = mAppInfos.get(position);
             holder.mIcon.setImageDrawable(info.getIcon());
-//            holder.mAppName.setText(info.getName());
+            holder.mNumber.setVisibility(info.getMessages() > 0 ? View.VISIBLE : View.GONE);
+            holder.mNumber.setText(String.valueOf(info.getMessages()));
             holder.mIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -52,7 +53,6 @@ public class ChatManagerAdapter extends RecyclerView.Adapter<ChatManagerAdapter.
             });
         } else if (viewType == APP_ADD) {
             holder.mIcon.setImageResource(R.drawable.round_add);
-//            holder.mAppName.setText("添加应用");
         }
     }
 
@@ -75,12 +75,12 @@ public class ChatManagerAdapter extends RecyclerView.Adapter<ChatManagerAdapter.
 
     static class ChatManagerViewHolder extends RecyclerView.ViewHolder {
         private ImageView mIcon;
-        private TextView mAppName;
+        private TextView mNumber;
 
         public ChatManagerViewHolder(@NonNull View itemView) {
             super(itemView);
             mIcon = itemView.findViewById(R.id.app_icon);
-//            mAppName = itemView.findViewById(R.id.app_name);
+            mNumber = itemView.findViewById(R.id.message_number);
         }
     }
 }
